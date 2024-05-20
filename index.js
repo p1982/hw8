@@ -10,6 +10,32 @@ class Book {
     applyDiscount(discountPercentage) {
         this._price *= 1 - discountPercentage / 100;
     }
+
+    getInfo() {
+        return `${this._title} by ${this._author}`;
+    }
+}
+
+class PhysicalBook extends Book {
+    constructor(title, author, isbn, price, availability, weight) {
+        super(title, author, isbn, price, availability);
+        this._weight = weight;
+    }
+
+    getShippingCost() {
+        return this._weight * 0.5; // Example shipping cost calculation
+    }
+}
+
+class EBook extends Book {
+    constructor(title, author, isbn, price, availability, fileSize) {
+        super(title, author, isbn, price, availability);
+        this._fileSize = fileSize;
+    }
+
+    download() {
+        console.log(`Downloading ${this._title}...`);
+    }
 }
 
 /**
@@ -20,6 +46,21 @@ class User {
         this._name = name;
         this._email = email;
         this._userId = userId;
+    }
+
+    getDetails() {
+        return `${this._name} (${this._email})`;
+    }
+}
+
+class Admin extends User {
+    constructor(name, email, userId, permissions) {
+        super(name, email, userId);
+        this._permissions = permissions;
+    }
+
+    manageBooks(bookstore) {
+        console.log(`Admin ${this._name} is managing books...`);
     }
 }
 
@@ -158,6 +199,7 @@ book1.applyDiscount(10);
 console.log("Discounted price of book1:", book1._price);
 
 const user1 = new User("John Doe", "john@example.com", "123456");
+const admin1 = new Admin("Jane Smith", "jane@example.com", "admin123", ["ADD_BOOK", "REMOVE_BOOK"]);
 
 const cart = new Cart(user1);
 cart.addBook(book1);
